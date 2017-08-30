@@ -1,0 +1,8 @@
+{
+  "description": "An example using SitecoreQL",
+  "scripts": {},
+  "dependencies": {
+    "graphiql": "^0.11.3"
+  },
+  "optionalDependencies": {}
+}
