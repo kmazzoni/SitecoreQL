@@ -188,7 +188,6 @@
     <Compile Include="Controllers\SitecoreQLController.cs" />
     <Compile Include="Converters\ArgumentToExpressionConverter.cs" />
     <Compile Include="Converters\IArgumentToExpressionConverter.cs" />
-    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Query\ItemQuery.cs" />
     <Compile Include="Repositories\IReadOnlyRepository.cs" />
