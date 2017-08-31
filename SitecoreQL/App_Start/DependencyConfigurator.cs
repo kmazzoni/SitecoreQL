@@ -21,6 +21,7 @@ namespace SitecoreQL.App_Start
             serviceCollection.AddTransient<SearchQueryType>();
             serviceCollection.AddTransient<FilterGraphType>();
             serviceCollection.AddTransient<SortGraphType>();
+            serviceCollection.AddTransient<SortDirectionGraphType>();
             serviceCollection.AddTransient<IReadOnlyRepository<ItemQuery.GraphQLSearchResultItem>, ItemRepository>();
             serviceCollection.AddTransient<IArgumentToExpressionConverter, ArgumentToExpressionConverter>();
             serviceCollection.AddTransient<ISchema>(d => new SitecoreSchema(type => (GraphType)d.GetService(type)));

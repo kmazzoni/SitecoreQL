@@ -5,11 +5,11 @@ using System.Linq.Expressions;
 using System.Reflection;
 using GraphQL;
 using Sitecore.ContentSearch;
-using Sitecore.ContentSearch.Linq.Common;
 using Sitecore.ContentSearch.Linq.Utilities;
 using Sitecore.ContentSearch.SearchTypes;
 using Sitecore.Data;
 using SitecoreQL.Query;
+using SitecoreQL.Types;
 
 namespace SitecoreQL.Converters
 {
@@ -44,7 +44,7 @@ namespace SitecoreQL.Converters
 
                 if (expression != null)
                 {
-                    return sortOption.Dir.Equals("desc", StringComparison.InvariantCultureIgnoreCase) ? q.OrderByDescending(expression) : q.OrderBy(expression);
+                    return sortOption.Dir == SortDirection.DESC ? q.OrderByDescending(expression) : q.OrderBy(expression);
                 }
 
                 return null;
@@ -150,6 +150,6 @@ namespace SitecoreQL.Converters
     public class SortOption
     {
         public string Field { get; set; }
-        public string Dir { get; set; }
+        public SortDirection Dir { get; set; }
     }
 }
