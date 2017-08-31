@@ -9,8 +9,8 @@ namespace SitecoreQL.Types
         {
             Name = "Sort";
             Description = "Specify the field to sort on and direction.";
-            Field<StringGraphType>("field");
-            Field<SortDirectionGraphType>("dir");
+            Field<StringGraphType>("field", "The Sitecore field to sort all results by.");
+            Field<SortDirectionGraphType>("dir", "The direction the results should be ordered by (ASC/DESC).");
         }
     }
 
@@ -20,8 +20,8 @@ namespace SitecoreQL.Types
         {
             Name = "Facets";
 
-            Field(x => x.Name);
-            Field(x => x.Values, type:typeof(ListGraphType<FacetValueGraphType>));
+            Field(x => x.Name).Description("The facet's name.");
+            Field(x => x.Values, type:typeof(ListGraphType<FacetValueGraphType>)).Description("The valid values for this facet.");
         }
     }
 
@@ -31,8 +31,8 @@ namespace SitecoreQL.Types
         {
             Name = "FacetValues";
 
-            Field(x => x.Name);
-            Field(x => x.AggregateCount).Name("count");
+            Field(x => x.Name).Description("The facet value's name.");
+            Field(x => x.AggregateCount).Name("count").Description("The number of item's whose field value matches this facet value's name.");
         }
     }
 }

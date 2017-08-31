@@ -9,12 +9,15 @@ namespace SitecoreQL.Types
     {
         public SearchQueryType()
         {
-            Field(x => x.TotalSearchResults).Name("totalCount");
-            Field<ListGraphType<ItemType>>("items", resolve: context =>
+            Name = "SearchQueryResult";
+            Description = "Search results.";
+
+            Field(x => x.TotalSearchResults).Name("totalCount").Description("Total number of items matching the search criteria.");
+            Field<ListGraphType<ItemType>>("items", "The items returned from the search.", resolve: context =>
             {
                 return context.Source.Select(x => x.Document);
             });
-            Field<ListGraphType<FacetsGraphType>>("facets", resolve: context => context.Source.Facets.Categories);
+            Field<ListGraphType<FacetsGraphType>>("facets", "The set of requested facets and their values/counts.", resolve: context => context.Source.Facets.Categories);
         }
     }
 }

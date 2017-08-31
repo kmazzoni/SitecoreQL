@@ -14,6 +14,7 @@ namespace SitecoreQL.Query
         public ItemQuery(IReadOnlyRepository<GraphQLSearchResultItem> repository, IArgumentToExpressionConverter argumentsConverter)
         {
             Name = "Query";
+            Description = "Query for Sitecore items";
 
             var queryArguments = new QueryArguments
             {
@@ -24,9 +25,11 @@ namespace SitecoreQL.Query
                 new QueryArgument<ListGraphType<StringGraphType>> { Name = "facets", DefaultValue = new string[] { } }
             };
 
-            Field<SearchQueryType>("search", arguments: queryArguments, resolve: context =>
+            Field<SearchQueryType>("search", "Search against all Sitecore items by providing various filter/sort/faceting options.",
+                queryArguments,
+                context =>
             {
-                var filter = context.GetArgument<Dictionary<string,object>>("filter");
+                var filter = context.GetArgument<Dictionary<string, object>>("filter");
                 var first = context.GetArgument<int>("first");
                 var offset = context.GetArgument<int>("offset");
                 var sort = context.GetArgument<Dictionary<string, object>>("sort");
@@ -35,13 +38,13 @@ namespace SitecoreQL.Query
                 var filterExpression = argumentsConverter.ConvertToFilter(filter);
                 var orderByExpression = argumentsConverter.ConvertToOrderBy(sort);
                 var facetOnExpression = argumentsConverter.ConvertToFacets(facets);
-                 
+
                 return repository.GetMany(filterExpression, orderByExpression, facetOnExpression, first, offset);
             });
 
-            Field<ItemType>("item", 
-                arguments: new QueryArguments(new QueryArgument(typeof(StringGraphType)) {Name = "id"}), 
-                resolve: context => repository.GetById(new Guid(context.GetArgument<string>("id"))));
+            Field<ItemType>("item", "Lookup a single Sitecore item by it's ID.",
+                new QueryArguments(new QueryArgument(typeof(StringGraphType)) { Name = "id" }),
+                context => repository.GetById(new Guid(context.GetArgument<string>("id"))));
         }
 
         public class GraphQLSearchResultItem : SearchResultItem

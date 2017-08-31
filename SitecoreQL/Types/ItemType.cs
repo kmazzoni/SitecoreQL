@@ -7,22 +7,25 @@ namespace SitecoreQL.Types
 {
     public class ItemType : ObjectGraphType<ItemQuery.GraphQLSearchResultItem>
     {
-        public ItemType(IReadOnlyRepository<ItemQuery.GraphQLSearchResultItem> repo) 
+        public ItemType(IReadOnlyRepository<ItemQuery.GraphQLSearchResultItem> repo)
         {
-            Field<GraphQL.Types.IdGraphType>("id", resolve: context => context.Source.ItemId.Guid.ToString());
-            Field(x => x.Name, true);
-            Field(x => x.Language, true);
-            Field(x => x.DatabaseName, true);
-            Field(x => x.Path, true);
-            Field(x => x.Url, true);
-            Field(x => x.CreatedDate, true);
-            Field(x => x.CreatedBy, true);
-            Field(x => x.Updated, true);
-            Field(x => x.UpdatedBy, true);
-            Field(x => x.Version, true);
-            Field<ItemType>("template", resolve: context => repo.GetById(context.Source.TemplateId.Guid));
-            Field<ItemType>("parent", resolve: context => repo.GetById(context.Source.Parent.Guid));
-            Field<ListGraphType<ItemType>>("children", resolve: context => repo.GetMany(x => x.Parent == context.Source.ItemId).Select(h => h.Document));
+            Name = "SitecoreItem";
+            Description = "Sitecore item.";
+
+            Field<GraphQL.Types.IdGraphType>("id", "The item's unique ID.", resolve: context => context.Source.ItemId.Guid.ToString());
+            Field(x => x.Name, true).Description("The name of the item.");
+            Field(x => x.Language, true).Description("The language the item was created in.");
+            Field(x => x.DatabaseName, true).Description("The name of the database the item was searched from.");
+            Field(x => x.Path, true).Description("The Sitecore item path.");
+            Field(x => x.Url, true).Description("The item's relative URL.");
+            Field(x => x.CreatedDate, true).Description("The date the item was created.");
+            Field(x => x.CreatedBy, true).Description("The username of the person who created the item.");
+            Field(x => x.Updated, true).Description("The date the item was last updated.");
+            Field(x => x.UpdatedBy, true).Description("The username of the person who last updated the item.");
+            Field(x => x.Version, true).Description("The version number of the item");
+            Field<ItemType>("template", "The template of the item.", resolve: context => repo.GetById(context.Source.TemplateId.Guid));
+            Field<ItemType>("parent", "The item's parent.", resolve: context => repo.GetById(context.Source.Parent.Guid));
+            Field<ListGraphType<ItemType>>("children", "The direction children of the item.", resolve: context => repo.GetMany(x => x.Parent == context.Source.ItemId).Select(h => h.Document));
         }
     }
 }
