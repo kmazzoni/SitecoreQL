@@ -12,7 +12,7 @@ namespace SitecoreQL.Repositories
     {
         T GetById(Guid id);
         SearchResults<T> GetAll();
-        SearchResults<T> GetMany(Expression<Func<T, bool>> predicate, int take = 0, int skip = 0);
+        SearchResults<T> GetMany(Expression<Func<T, bool>> predicate, Func<IQueryable<ItemQuery.GraphQLSearchResultItem>, IOrderedQueryable<ItemQuery.GraphQLSearchResultItem>> orderBy = null, int take = 0, int skip = 0);
     }
 
     public class ItemRepository : IReadOnlyRepository<ItemQuery.GraphQLSearchResultItem>, IDisposable
@@ -42,13 +42,19 @@ namespace SitecoreQL.Repositories
             return GetMany(null);
         }
 
-        public SearchResults<ItemQuery.GraphQLSearchResultItem> GetMany(Expression<Func<ItemQuery.GraphQLSearchResultItem, bool>> predicate, int take = 0, int skip = 0)
+        public SearchResults<ItemQuery.GraphQLSearchResultItem> GetMany(Expression<Func<ItemQuery.GraphQLSearchResultItem, bool>> predicate, Func<IQueryable<ItemQuery.GraphQLSearchResultItem>, IOrderedQueryable<ItemQuery.GraphQLSearchResultItem>> orderBy = null, int take = 0, int skip = 0)
         {
             var queryable = _searchContext.GetQueryable<ItemQuery.GraphQLSearchResultItem>();
 
             if (predicate != null)
             {
                 queryable = queryable.Where(predicate);
+            }
+
+            var sortedQuery = orderBy?.Invoke(queryable);
+            if (sortedQuery != null)
+            {
+                queryable = sortedQuery;
             }
 
             queryable = queryable.Skip(skip);
