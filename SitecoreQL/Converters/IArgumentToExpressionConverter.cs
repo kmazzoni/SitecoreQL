@@ -10,5 +10,6 @@ namespace SitecoreQL.Converters
     {
         Expression<Func<ItemQuery.GraphQLSearchResultItem, bool>> ConvertToFilter(IDictionary<string, object> arguments);
         Func<IQueryable<ItemQuery.GraphQLSearchResultItem>, IOrderedQueryable<ItemQuery.GraphQLSearchResultItem>> ConvertToOrderBy(IDictionary<string, object> arguments);
+        IEnumerable<Expression<Func<ItemQuery.GraphQLSearchResultItem, object>>> ConvertToFacets(IEnumerable<string> arguments);
     }
 }

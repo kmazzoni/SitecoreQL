@@ -14,7 +14,7 @@ namespace SitecoreQL.Types
             {
                 return context.Source.Select(x => x.Document);
             });
-            //Field(x => x.Facets);
+            Field<ListGraphType<FacetsGraphType>>("facets", resolve: context => context.Source.Facets.Categories);
         }
     }
 }

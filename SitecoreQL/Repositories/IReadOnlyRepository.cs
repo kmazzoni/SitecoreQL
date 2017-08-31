@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Sitecore.ContentSearch;
@@ -11,8 +12,8 @@ namespace SitecoreQL.Repositories
     public interface IReadOnlyRepository<T>
     {
         T GetById(Guid id);
-        SearchResults<T> GetAll();
-        SearchResults<T> GetMany(Expression<Func<T, bool>> predicate, Func<IQueryable<ItemQuery.GraphQLSearchResultItem>, IOrderedQueryable<ItemQuery.GraphQLSearchResultItem>> orderBy = null, int take = 0, int skip = 0);
+        SearchResults<ItemQuery.GraphQLSearchResultItem> GetAll();
+        SearchResults<ItemQuery.GraphQLSearchResultItem> GetMany(Expression<Func<T, bool>> predicate, Func<IQueryable<ItemQuery.GraphQLSearchResultItem>, IOrderedQueryable<ItemQuery.GraphQLSearchResultItem>> orderBy = null, IEnumerable<Expression<Func<ItemQuery.GraphQLSearchResultItem, object>>> facetOn = null, int take = 0, int skip = 0);
     }
 
     public class ItemRepository : IReadOnlyRepository<ItemQuery.GraphQLSearchResultItem>, IDisposable
@@ -42,7 +43,7 @@ namespace SitecoreQL.Repositories
             return GetMany(null);
         }
 
-        public SearchResults<ItemQuery.GraphQLSearchResultItem> GetMany(Expression<Func<ItemQuery.GraphQLSearchResultItem, bool>> predicate, Func<IQueryable<ItemQuery.GraphQLSearchResultItem>, IOrderedQueryable<ItemQuery.GraphQLSearchResultItem>> orderBy = null, int take = 0, int skip = 0)
+        public SearchResults<ItemQuery.GraphQLSearchResultItem> GetMany(Expression<Func<ItemQuery.GraphQLSearchResultItem, bool>> predicate, Func<IQueryable<ItemQuery.GraphQLSearchResultItem>, IOrderedQueryable<ItemQuery.GraphQLSearchResultItem>> orderBy = null, IEnumerable<Expression<Func<ItemQuery.GraphQLSearchResultItem, object>>> facetOn = null, int take = 0, int skip = 0)
         {
             var queryable = _searchContext.GetQueryable<ItemQuery.GraphQLSearchResultItem>();
 
@@ -55,6 +56,11 @@ namespace SitecoreQL.Repositories
             if (sortedQuery != null)
             {
                 queryable = sortedQuery;
+            }
+
+            if (facetOn != null)
+            {
+                queryable = facetOn.Aggregate(queryable, (current, facetExp) => current.FacetOn(facetExp, 1));
             }
 
             queryable = queryable.Skip(skip);

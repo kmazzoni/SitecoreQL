@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using GraphQL;
 using Sitecore.ContentSearch;
+using Sitecore.ContentSearch.Linq.Extensions;
 using Sitecore.ContentSearch.Linq.Utilities;
 using Sitecore.ContentSearch.SearchTypes;
 using Sitecore.Data;
@@ -49,6 +50,16 @@ namespace SitecoreQL.Converters
 
                 return null;
             };
+        }
+
+        public IEnumerable<Expression<Func<ItemQuery.GraphQLSearchResultItem, object>>> ConvertToFacets(IEnumerable<string> arguments)
+        {
+            var p = Expression.Parameter(typeof(ItemQuery.GraphQLSearchResultItem), "i");
+
+            foreach (string argument in arguments)
+            {
+                yield return GenerateMemberExpression<object>(argument);
+            }
         }
 
         private Expression<Func<ItemQuery.GraphQLSearchResultItem, TK>> GenerateMemberExpression<TK>(string propertyName)

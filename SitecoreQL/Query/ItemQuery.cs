@@ -20,7 +20,8 @@ namespace SitecoreQL.Query
                 new QueryArgument<FilterGraphType> {Name = "filter", DefaultValue = new Dictionary<string, object>()},
                 new QueryArgument<IntGraphType> {Name = "first", DefaultValue = 0},
                 new QueryArgument<IntGraphType> {Name = "offset", DefaultValue = 0},
-                new QueryArgument<SortGraphType> {Name = "sort", DefaultValue = new Dictionary<string, object>()}
+                new QueryArgument<SortGraphType> {Name = "sort", DefaultValue = new Dictionary<string, object>()},
+                new QueryArgument<ListGraphType<StringGraphType>> { Name = "facets", DefaultValue = new string[] { } }
             };
 
             Field<SearchQueryType>("search", arguments: queryArguments, resolve: context =>
@@ -29,11 +30,13 @@ namespace SitecoreQL.Query
                 var first = context.GetArgument<int>("first");
                 var offset = context.GetArgument<int>("offset");
                 var sort = context.GetArgument<Dictionary<string, object>>("sort");
+                var facets = context.GetArgument<IList<string>>("facets");
 
                 var filterExpression = argumentsConverter.ConvertToFilter(filter);
                 var orderByExpression = argumentsConverter.ConvertToOrderBy(sort);
+                var facetOnExpression = argumentsConverter.ConvertToFacets(facets);
                  
-                return repository.GetMany(filterExpression, orderByExpression, first, offset);
+                return repository.GetMany(filterExpression, orderByExpression, facetOnExpression, first, offset);
             });
 
             Field<ItemType>("item", 

@@ -1,4 +1,5 @@
 ﻿using GraphQL.Types;
+using Sitecore.ContentSearch.Linq;
 
 namespace SitecoreQL.Types
 {
@@ -13,20 +14,25 @@ namespace SitecoreQL.Types
         }
     }
 
-    public class SortDirectionGraphType : EnumerationGraphType
+    public class FacetsGraphType : ObjectGraphType<FacetCategory>
     {
-        public SortDirectionGraphType()
+        public FacetsGraphType()
         {
-            Name = "SortDirection";
-            Description = "Direction to sort results (asc/desc)";
-            AddValue("ASC", "Ascending", 1);
-            AddValue("DESC", "Descending", 2);
+            Name = "Facets";
+
+            Field(x => x.Name);
+            Field(x => x.Values, type:typeof(ListGraphType<FacetValueGraphType>));
         }
     }
 
-    public enum SortDirection
+    public class FacetValueGraphType : ObjectGraphType<FacetValue>
     {
-        ASC = 1,
-        DESC = 2
+        public FacetValueGraphType()
+        {
+            Name = "FacetValues";
+
+            Field(x => x.Name);
+            Field(x => x.AggregateCount).Name("count");
+        }
     }
 }
