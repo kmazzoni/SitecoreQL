@@ -64,6 +64,8 @@ namespace SitecoreQL.Converters
 
         private Expression<Func<ItemQuery.GraphQLSearchResultItem, TK>> GenerateMemberExpression<TK>(string propertyName)
         {
+            if (string.IsNullOrEmpty(propertyName)) return null;
+
             var propertyInfo = GetProperty<ItemQuery.GraphQLSearchResultItem>(propertyName);
 
             if (propertyInfo == null) return null;
