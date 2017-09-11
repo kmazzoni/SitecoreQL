@@ -13,7 +13,7 @@ namespace SitecoreQL.Types
             Description = "Search results.";
 
             Field(x => x.TotalSearchResults).Name("totalCount").Description("Total number of items matching the search criteria.");
-            Field<ListGraphType<ItemType>>("items", "The items returned from the search.", resolve: context =>
+            Field<ListGraphType<SearchItemType>>("items", "The items returned from the search.", resolve: context =>
             {
                 return context.Source.Select(x => x.Document);
             });

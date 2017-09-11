@@ -42,7 +42,7 @@ namespace SitecoreQL.Query
                 return repository.GetMany(filterExpression, orderByExpression, facetOnExpression, first, offset);
             });
 
-            Field<ItemType>("item", "Lookup a single Sitecore item by it's ID.",
+            Field<SearchItemType>("item", "Lookup a single Sitecore item by it's ID.",
                 new QueryArguments(new QueryArgument(typeof(StringGraphType)) { Name = "id" }),
                 context => repository.GetById(new Guid(context.GetArgument<string>("id"))));
         }

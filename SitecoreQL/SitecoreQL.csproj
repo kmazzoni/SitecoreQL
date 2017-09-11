@@ -195,6 +195,8 @@
     <Compile Include="Types\FilterGraphType.cs" />
     <Compile Include="Types\IdGraphType.cs" />
     <Compile Include="Types\ItemType.cs" />
+    <Compile Include="Types\KeyValuePairType.cs" />
+    <Compile Include="Types\SearchItemType.cs" />
     <Compile Include="Types\SearchQueryType.cs" />
     <Compile Include="Types\SortDirectionGraphType.cs" />
     <Compile Include="Types\SortGraphType.cs" />
