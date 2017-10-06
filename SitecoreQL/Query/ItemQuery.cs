@@ -25,7 +25,8 @@ namespace SitecoreQL.Query
                 new QueryArgument<ListGraphType<StringGraphType>> { Name = "facets", DefaultValue = new string[] { } }
             };
 
-            Field<SearchQueryType>("search", "Search against all Sitecore items by providing various filter/sort/faceting options.",
+            Field<SearchQueryType>("search", 
+                "Search against all Sitecore items by providing various filter/sort/faceting options.",
                 queryArguments,
                 context =>
             {
@@ -42,9 +43,20 @@ namespace SitecoreQL.Query
                 return repository.GetMany(filterExpression, orderByExpression, facetOnExpression, first, offset);
             });
 
-            Field<SearchItemType>("item", "Lookup a single Sitecore item by it's ID.",
+            Field<SearchItemType>("item", 
+                "Lookup a single Sitecore item by it's ID.",
                 new QueryArguments(new QueryArgument(typeof(StringGraphType)) { Name = "id" }),
                 context => repository.GetById(new Guid(context.GetArgument<string>("id"))));
+
+            Field<ItemArrayType>("xpath", 
+                "Lookup Sitecore items via xpath query", 
+                new QueryArguments(new QueryArgument(typeof(StringGraphType)) { Name = "query" }),
+                context =>
+                {
+                    var query = context.GetArgument<string>("query");
+
+                    return Sitecore.Context.Database.SelectItems(query);
+                });
         }
 
         public class GraphQLSearchResultItem : SearchResultItem

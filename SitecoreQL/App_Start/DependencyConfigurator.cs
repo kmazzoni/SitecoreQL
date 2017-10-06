@@ -17,6 +17,10 @@ namespace SitecoreQL.App_Start
         {
             serviceCollection.AddSingleton<IDocumentExecuter, DocumentExecuter>();
             serviceCollection.AddTransient<ItemQuery>();
+            serviceCollection.AddTransient<ItemArrayType>();
+            serviceCollection.AddTransient<ItemType>();
+            serviceCollection.AddTransient<ItemPathType>();
+            serviceCollection.AddTransient<ItemStatisticsType>();
             serviceCollection.AddTransient<SearchItemType>();
             serviceCollection.AddTransient<SearchQueryType>();
             serviceCollection.AddTransient<FilterGraphType>();

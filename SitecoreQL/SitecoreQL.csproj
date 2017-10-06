@@ -194,6 +194,9 @@
     <Compile Include="Schema\SitecoreSchema.cs" />
     <Compile Include="Types\FilterGraphType.cs" />
     <Compile Include="Types\IdGraphType.cs" />
+    <Compile Include="Types\ItemArrayType.cs" />
+    <Compile Include="Types\ItemPathType.cs" />
+    <Compile Include="Types\ItemStatisticsType.cs" />
     <Compile Include="Types\ItemType.cs" />
     <Compile Include="Types\KeyValuePairType.cs" />
     <Compile Include="Types\SearchItemType.cs" />
