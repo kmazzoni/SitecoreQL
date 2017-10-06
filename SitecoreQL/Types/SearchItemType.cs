@@ -10,7 +10,7 @@ namespace SitecoreQL.Types
     {
         public SearchItemType(IReadOnlyRepository<ItemQuery.GraphQLSearchResultItem> repo)
         {
-            Name = "SitecoreItem";
+            Name = "SearchResultItem";
             Description = "Sitecore item.";
 
             Field<GraphQL.Types.IdGraphType>("id", "The item's unique ID.", resolve: context => context.Source.ItemId.Guid.ToString());

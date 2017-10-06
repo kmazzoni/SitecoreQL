@@ -7,6 +7,8 @@ namespace SitecoreQL.Types
     {
         public ItemPathType()
         {
+            Name = "ItemPath";
+
             Field(x => x.ContentPath);
             Field(x => x.FullPath);
             Field(x => x.IsContentItem);
