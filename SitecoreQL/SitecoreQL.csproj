@@ -24,6 +24,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -193,7 +194,6 @@
     <Compile Include="Repositories\IReadOnlyRepository.cs" />
     <Compile Include="Schema\SitecoreSchema.cs" />
     <Compile Include="Types\FilterGraphType.cs" />
-    <Compile Include="Types\IdGraphType.cs" />
     <Compile Include="Types\ItemArrayType.cs" />
     <Compile Include="Types\ItemPathType.cs" />
     <Compile Include="Types\ItemStatisticsType.cs" />

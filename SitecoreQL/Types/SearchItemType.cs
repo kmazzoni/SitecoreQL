@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using GraphQL.Types;
 using SitecoreQL.Query;
@@ -13,7 +14,7 @@ namespace SitecoreQL.Types
             Name = "SearchResultItem";
             Description = "Sitecore item.";
 
-            Field<GraphQL.Types.IdGraphType>("id", "The item's unique ID.", resolve: context => context.Source.ItemId.Guid.ToString());
+            Field<GraphQL.Types.IdGraphType>("id", "The item's unique ID.", resolve: context => context?.Source?.ItemId?.Guid.ToString() ?? Guid.Empty.ToString());
             Field(x => x.Name, true).Description("The name of the item.");
             Field(x => x.Language, true).Description("The language the item was created in.");
             Field(x => x.DatabaseName, true).Description("The name of the database the item was searched from.");
